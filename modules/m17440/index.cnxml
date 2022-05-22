@@ -1,0 +1,73 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Valoraciones sobre la Reingeniería del Software</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>2d70eb4d-7814-4f5c-9b1f-cfc99d41afed</md:uuid>
+</metadata>
+  <content>
+    <para id="id15904946">Se entiende por reingeniería la modificación de un producto software o de ciertos componentes, usando para el análisis del sistema existente técnicas de ingeniería inversa y para la etapa de reconstrucción, herramientas de ingeniería directa.</para>
+    <para id="id12110106">La reingeniería requiere tiempo; conlleva un coste de dinero enorme y absorbe recursos que de otro modo podrían emplearse en preocupaciones más inmediatas. La reingeniería es una actividad que absorberá recursos de las tecnologías de la información durante un período de tiempo grande.</para>
+    <para id="id17509784">Ante la perspectiva de aplicar procesos de reingeniería, cabe preguntarse si existen alternativas a esto:</para>
+    <list list-type="bulleted" id="id19853369">
+      <item>Comprar un software que lo sustituya.</item>
+      <item>Desarrollar el software de nuevo.</item>
+    </list>
+    <para id="id10154535">Desde luego, cualquier opción (incluyendo la reingeniería) incurre en costes de mantenimiento y de operaciones. No obstante, la reingeniería se suele considerar una buena opción frente al desarrollo de una nueva aplicación cuando:</para>
+    <list list-type="bulleted" id="id15653272">
+      <item>La aplicación tiene fallos frecuentes que son difíciles de localizar.</item>
+      <item>La aplicación es poco eficiente, pero realiza la acción esperada.</item>
+      <item>Existen dificultades para integrar la aplicación con otros sistemas.</item>
+      <item>El software final de la aplicación es de poca calidad.</item>
+      <item>Cuando no se dispone de personal suficiente para realizar todas las modificaciones necesarias que puedan surgir.</item>
+      <item>Cuando no se tenga facilidad para realizar las pruebas a los cambios que se deban realizar.</item>
+      <item>Cuando el mantenimiento de la aplicación consume muchos recursos.</item>
+      <item>Cuando es necesario incluir nuevos requisitos a la aplicación, pero los fundamentales se mantienen. </item>
+    </list>
+    <section id="id14184602">
+      <title>Método cuantitativo</title>
+      <para id="id10282964">De manera objetiva, se puede calcular el beneficio cuantitativo tanto para comprar un software que lo sustituya como para el desarrollo del software nuevo.</para>
+      <para id="id18371645"/>
+      <para id="id13889131">Si se mantiene el software como está, el beneficio se puede calcular de la siguiente manera:</para>
+      <para id="id19862457">BM = [VA – (CMA + COpA)] x T. Vida</para>
+      <para id="id17170712">Siendo </para>
+      <para id="id17832505">BM: el beneficio de mantenimiento </para>
+      <para id="id19843805">VA: el valor de negocio actual (anual) </para>
+      <para id="id17166275">CMA: el coste de mantenimiento actual </para>
+      <para id="id8951655">COpA: el coste actual de operación de la aplicación, es decir, los costes derivados de mantener la aplicación en uso (servicios de atención al cliente, administración,...).</para>
+      <para id="id17400108">Si por el contrario se elige hacer reingeniería, el beneficio obtenido será:</para>
+      <para id="id17356932">BR = [(GF x T. Vida) – (CR x FR)] – BM</para>
+      <para id="id16372109">GF = VF – (CMF x COpF)] – BM</para>
+      <para id="id10499508">T. Vida = T. Vida Estimado –T. Reingeniería</para>
+      <para id="id14008245">Donde:</para>
+      <para id="id5830630">BR: beneficio de reingeniería</para>
+      <para id="id17632854">GF: ganancia final</para>
+      <para id="id8818085">CR: coste de reingeniería</para>
+      <para id="id18148607">FR: factor de riesgo de la reingeniería</para>
+      <para id="id16111190">BM: beneficio de mantenimiento</para>
+      <para id="id8504300">VF: el valor de negocio tras la reingeniería (anual) </para>
+      <para id="id19931477">CMF: coste de mantenimiento final</para>
+      <para id="id15906989">COpF: coste de operación final</para>
+    </section>
+    <section id="id19052286">
+      <title>Importancia de aplicar Reingeniería del Software</title>
+      <para id="id17847321">Mucha gente al ver las grandes y viejas mansiones queda asombrado de su belleza, pero no se preguntan que tan bien se puede vivir en ellas. Las personas que lo hacen dicen que es una pesadilla mantenerlas. Todas ellas fueron construidas con viejas tecnología estándar. Sus paredes externas no tienen aislamiento. El alambrado eléctrico tiene limitaciones y claramente es inadecuada para las necesidades de energía de hoy y su cableado decadente crea un severo peligro eléctrico. </para>
+      <para id="id10237116">Los viejos sistemas son muy similares a los grandes y viejos edificios. Ellos tienen los mismos problemas de mantenimiento, un hecho en gran parte irreconocible por parte de la comunidad corporativa. Muchos de esos edificios son demolidos por que no son mantenibles y ya no sirven para las necesidades de sus ocupantes.</para>
+      <para id="id8548956">Las viejas computadoras tal vez se puedan ver solamente en museos. Pero en muchos casos, software escrito para viejos modelos de computadora están ejecutándose hoy en día. Un caso extremo es el de un software escrito para una IBM 1401 Autocoder. Cuando la compañía remplazó la 1401 con una IBM 360/40, compraron un emulador de la 1401 para poder ejecutar el software. Esa aplicación hoy día corre en una PC – la compañía compro otro emulador. </para>
+      <para id="id17831914">Los clientes demandan que las nuevas capacidades sean agregadas al código escrito en sus viejos sistemas. Casi siempre, las empresas encuentran que no pueden modificar su código – el programador que lo mantenía murió recientemente o nadie sabe programar en el lenguaje en el que fue escrito. Por lo que la funcionalidad de ese programa quedará así para siempre.</para>
+      <para id="id18349685">La siguiente lista son las razones por las que es aplicable la reingeniería a los sistemas de información heredados:</para>
+      <list list-type="bulleted" id="id17626597">
+        <item>Frecuentes fallas de producción (fiabilidad cuestionable).</item>
+        <item>Problemas de rendimiento.</item>
+        <item>Tecnología obsoleta.</item>
+        <item>Problemas de integración del sistema.</item>
+        <item>Código de calida pobre.</item>
+        <item>Dificultad (peligroso) al cambio.</item>
+        <item>Dificultad para probar.</item>
+        <item>Mantenimiento caro.</item>
+        <item>Incremento de problemas del sistema.</item>
+      </list>
+      <para id="id10947576">Estas razones pueden ser solucionadas al aplicar un proceso de mantenimiento de software, pero cuando dicho mantenimiento deja de ser viable, entonces se toma la decisión de aplicar reingeniería.</para>
+      <para id="id11707388">Aunque la reingeniería se usa principalmente durante el mantenimiento del software, va mas allá de una simple ayuda para el mantenimiento. La reingeniería es el puente desde viejas tecnologías hacía nuevas tecnologías que las organizaciones deben usar en la actualidad para responder al cambio de requerimientos del negocio.</para>
+      <para id="id17258391">Los viejos programas representan la tecnología del ayer. Ahora sabemos que los años tienen cuatro dígitos y no dos, que los datos pueden ser manejados mejor en bases de datos y que tenemos nuevos diseños de construcción y lenguajes de programación que permiten diseñar programas notablemente mantenibles.</para>
+      <para id="id14302557">Cuando el costo de mantener viejos edificios es altamente excesivo, se remplazan estos edificios. Nosotros deberíamos hacer lo mismo con los programas. Los programas no se hacen obsoletos al paso del tiempo ya que fueron escritos para hardware y sistemas operativos que ya no existen, muchos están llenos de características y parches no documentados. Sólo cuando hayamos aprendido a que es mejor invertir en nuevo hardware y nuevos edificios podremos reconocer el valor de remplazar los viejos sistemas raquíticos.</para>
+    </section>
+  </content>
+</document>

@@ -1,0 +1,73 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>¿Qué es la Ingeniería Inversa?</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>db04bdd0-a1e9-41c6-b370-23b5331c8207</md:uuid>
+</metadata>
+  <content>
+    <para id="id17456763">La ingeniería inversa se ha definido como el proceso de construir especificaciones de un mayor nivel de abstracción partiendo del código fuente de un sistema software o cualquier otro producto (se puede utilizar como punto de partida cualquier otro elemento de diseño, etc.). </para>
+    <para id="id17898564">Estas especificaciones pueden volver ser utilizadas para construir una nueva implementación del sistema utilizando, por ejemplo, técnicas de ingeniería directa. </para>
+    <section id="id16645209">
+      <title>Beneficios de Ingeniería Inversa</title>
+      <para id="id15072478">La aplicación de ingeniería inversa nunca cambia la funcionalidad del software sino que permite obtener productos que indican cómo se ha construido el mismo. Se realiza permite obtener los siguientes beneficios:</para>
+      <list list-type="bulleted" id="id17355455">
+        <item>Reducir la complejidad del sistema: al intentar comprender el software se facilita su mantenimiento y la complejidad existente disminuye.</item>
+        <item>Generar diferentes alternativas: del punto de partida del proceso, principalmente código fuente, se generan representaciones gráficas lo que facilita su comprensión.</item>
+        <item>Recuperar y/o actualizar la información perdida (cambios que no se documentaron en su momento): en la evolución del sistema se realizan cambios que no se suele actualizar en las representaciones de nivel de abstracción más alto, para lo cual se utiliza la recuperación de diseño.</item>
+        <item>Detectar efectos laterales: los cambios que se puedan realizar en un sistema puede conducirnos a que surjan efectos no deseados, esta serie de anomalías puede ser detectados por la ingeniería inversa.</item>
+        <item>Facilitar la reutilización: por medio de la ingeniería inversa se pueden detectar componentes de posible reutilización de sistemas existentes, pudiendo aumentar la productividad, reducir los costes y los riesgos de mantenimiento.</item>
+      </list>
+      <para id="id13503040">La finalidad de la ingeniería inversa es la de desentrañar los misterios y secretos de los sistemas en uso a partir del código. Para ello, se emplean una serie de herramientas que extraen información de los datos, procedimientos y arquitectura del sistema existente.</para>
+    </section>
+    <section id="id12435987">
+      <title>Tipos de Ingeniería Inversa </title>
+      <para id="id17118220">La ingeniería inversa puede ser de varios tipos:</para>
+      <list list-type="bulleted" id="id14855054">
+        <item>Ingeniería inversa de datos: Se aplica sobre algún código de bases datos (aplicación, código SQL, etc) para obtener los modelos relacionales o sobre el modelo relacional para obtener el diagrama entidad-relación</item>
+        <item>Ingeniería inversa de lógica o de proceso: Cuando la ingeniería inversa se aplica sobre código de un programa para averiguar su lógica o sobre cualquier documento de diseño para obtener documentos de análisis o de requisitos.</item>
+        <item>Ingeniería inversa de interfaces de usuario: Se aplica con objeto de mantener la lógica interna del programa para obtener los modelos y especificaciones que sirvieron de base para la construcción de la misma, con objeto de tomarlas como punto de partida en procesos de ingeniería directa que permitan modificar dicha interfaz.</item>
+      </list>
+    </section>
+    <section id="id16443157">
+      <title>Herramientas para la Ingeniería Inversa</title>
+      <section id="id17720456">
+        <title>Los Depuradores</title>
+        <para id="id16442590">Un depurador es un programa que se utiliza para controlar otros programas. Permite avanzar paso a paso por el código, rastrear fallos, establecer puntos de control y observar las variables y el estado de la memoria en un momento dado del programa que se esté depurando. Los depuradores son muy valiosos a la hora de determinar el flujo lógico del programa.</para>
+        <para id="id17146113">Un punto de ruptura (breakpoint) es una instrucción al depurador que permite parar la ejecución del programa cuando cierta condición se cumpla. Por ejemplo, cuando un programa accede a cierta variable, o llama a cierta función de la API, el depurador puede parar la ejecución del programa.</para>
+        <para id="id16683767">Algunos depuradores de Windows son:</para>
+        <list list-type="bulleted" id="id18389052">
+          <item>OllyDbg → es un potente depurador con un motor de ensamblado y desensamblado integrado. Tiene numerosas otras características incluyendo un precio de 0 $. Muy útil para parcheado, desensamblado y depuración.</item>
+          <item>WinDBG → es una pieza de software gratuita de Microsoft que puede ser usada para depuración local en modo usuario, o incluso depuración remota en modo kernel.</item>
+        </list>
+      </section>
+      <section id="id17519757">
+        <title>Las Herramientas de Inyección de Fallos</title>
+        <para id="id15361048">Las herramientas que pueden proporcionar entradas malformadas con formato inadecuado a procesos del software objetivo para provocar errores son una clase de herramientas de inserción de fallos. Los errores del programa pueden ser analizados para determinar si los errores existen en el software objetivo. Algunos fallos tienen implicaciones en la seguridad, como los fallos que permiten un acceso directo del asaltante al ordenador principal o red. Hay herramientas de inyección de fallos basados en el anfitrión que funcionan como depuradores y pueden alterar las condiciones del programa para observar los resultados y también están los inyectores basados en redes que manipulan el tráfico de la red para determinar el efecto en el aparato receptor.</para>
+      </section>
+      <section id="id16728230">
+        <title>Los Desensambladores</title>
+        <para id="id16511342">Se trata de una herramienta que convierte código máquina en lenguaje ensamblador. El lenguaje ensamblador es una forma legible para los humanos del código máquina. Los desensambladotes revelan que instrucciones máquinas son usadas en el código. El código máquina normalmente es específico para una arquitectura dada del hardware. De forma que los desensambladotes son escritor expresamente para la arquitectura del hardware del software a desensamblar.</para>
+        <para id="id18016034">Algunos ejemplos de desensambladores son:</para>
+        <list list-type="bulleted" id="id17177686">
+          <item>IDA Pro → es un desensamblador profesional extremadamente potente. La parte mala es su elevado precio.</item>
+          <item>PE Explorer → es un desensamblador que “se centra en facilidad de uso, claridad y navegación”. No es tan completo como IDA Pro, pero tiene un precio más bajo.</item>
+          <item>IDA Pro Freeware 4.1 → se comporta casi como IDA Pro, pero solo desensambla código para procesadores Intel x86 y solo funciona en Windows.</item>
+          <item>Bastard Disassembler → es un potente y programable desensamblador para Linux y FreeBSD.</item>
+          <item>Ciasdis → esta herramienta basada en Forth permite construir conocimiento sobre un cuerpo de código de manera interactiva e incremental. Es único en que todo el código desensamblado puede ser re-ensamblado exactamente al mismo código.</item>
+        </list>
+      </section>
+      <section id="id15077469">
+        <title>Los compiladores Inversos o Decompiladores</title>
+        <para id="id17285888">Un decompilador es una herramienta que transforma código en ensamblador o código máquina en código fuente en lenguaje de alto nivel. También existen decompiladores que transforman lenguae intermedio en código fuente en lenguaje de alto nivel. Estas herramientas son sumamente útiles para determinar la lógica a nivel superior como bucles o declaraciones if-then de los programas que son decompilados. Los decompiladores son parecidos a los desensambladotes pero llevan el proceso un importante paso más allá.</para>
+        <para id="id17890237">Algunos decompiladores pueden ser:</para>
+        <list list-type="bulleted" id="id16002964">
+          <item>DCC Decompiler → es una exacelente perspectiva teórica a la descompilación, pero el descompilador sólo soporta programas MSDOS.</item>
+          <item>Boomerang Decompiler Project → es un intento de construir un potente descompilador para varias máquinas y lenguajes.</item>
+          <item>Reverse Engineering Compiler (REC) → es un potente “descompilador” que descompila código ensamblador a una representación del código semejante a C. El código está a medio camino entre ensamblador y C, pero es mucho más legible que el ensamblador puro.</item>
+        </list>
+      </section>
+      <section id="id17470556">
+        <title>Las Herramientas CASE</title>
+        <para id="id17904346">Las herramientas de ingeniería de sistemas asistida por ordenador (Computer-Aided Systems Engineering – CASE) aplican la tecnología informática a las actividades, las técnicas y las metodologías propias de desarrollo de sistemas para automatizar o apoyar una o más fases del ciclo de vida del desarrollo de sistemas. En el caso de la ingeniería inversa generalmente este tipo de herramientas suelen englobar una o más de las anteriores junto con otras que mejoran el rendimiento y la eficiencia.</para>
+      </section>
+    </section>
+  </content>
+</document>

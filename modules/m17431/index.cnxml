@@ -1,0 +1,29 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Técnicas del Mantenimiento del Software</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>db4cbdc4-6bd9-4a3d-969e-9f2d2d12698f</md:uuid>
+</metadata>
+  <content>
+    <para id="id3368211">Dentro de la ingeniería del software se proporcionan soluciones técnicas que permiten abordar el mantenimiento de manera que su impacto en coste dentro del ciclo de vida sea menor. Las soluciones técnicas pueden ser de tres tipos:</para>
+    <list list-type="enumerated" id="id16632416">
+      <item>Ingeniería inversa: Análisis de un sistema para identificar sus componentes y las relaciones entre ellos, así como para crear representaciones del sistema en otra forma o en un nivel de abstracción más elevado.</item>
+      <item>Reingeniería: Modificación de un producto software, o de ciertos componentes, usando para el análisis del sistema existente técnicas de ingeniería inversa y, para la etapa de reconstrucción, herramientas de ingeniería directa, de tal manera que se oriente este cambio hacia mayores niveles de facilidad en cuanto a mantenimiento, reutilización, comprensión o evolución.</item>
+      <item>Reestructuración del software: Cambio de representación de un producto software, pero dentro del mismo nivel de abstracción.</item>
+    </list>
+    <para id="id16758739">El objetivos de estas técnicas es proporcionar métodos para reconstruir el software, ya sea reprogramándolo, redocumentándolo, rediseñándolo, o rehaciendo alguna/s característica/s del producto. La diferencia entre las soluciones descritas radica en cuál es el origen y cuál es el destino de las mismas (producto inicial y/o producto final).</para>
+    <para id="id9381966">Gráficamente, estas tres soluciones técnicas se enmarcan en el ciclo de vida de la siguiente manera:</para>
+    <figure id="id16082316"><media id="idp1421456" alt=""><image src="../../media/Figura6.gif" mime-type="image/gif" height="239" width="400"/></media></figure>
+    <para id="id13675958"><cite><cite-title>Figura 1. Relaciones entre los términos asociados con la Reingeniería.
+</cite-title></cite>
+    </para>
+    <para id="id17596604">La Ingeniería directa corresponde al desarrollo del software tradicional. La Ingeniería Inversa es el proceso de análisis de un sistema para identificar sus componentes e interrelaciones y crear representaciones del sistema en otra forma o a un nivel más alto de abstracción. La Reingeniería es el examen y la alteración de un sistema para reconstruirlo de una nueva forma y la subsiguiente implementación de esta nueva forma. La Reestructuración es la modificación del software para hacerlo más fácil de entender y cambiar.</para>
+    <para id="id16630224">La reingeniería hace referencia a un ciclo, esto es, se aplican técnicas de ingeniería inversa para conseguir representaciones de mayor abstracción del producto y sobre ellas se aplican técnicas de ingeniería directa para rediseñar o reimplementar el producto. </para>
+    <para id="id12960250">Cualquiera de estas técnicas se puede aplicar a lo largo de todas las fases del ciclo de vida o bien entre algunas de sus fases.</para>
+    <para id="id18416521">También existen otras tecnologías, como por ejemplo:</para>
+    <list list-type="bulleted" id="id18107339">
+      <item>La remodularización: consiste en cambiar la estructura modular de un sistema de forma que se obtenga una nueva estructura siguiendo los principios del diseño estructurado.</item>
+      <item>Análisis de la facilidad de mantenimiento: normalmente la mayor parte del mantenimiento se centra relativamente en unos pocos módulos del sistema. </item>
+      <item>Visualización: el proceso más antiguo para la comprensión del software.</item>
+      <item>Análisis y mediciones: son importantes tecnologías que estudian ciertas propiedades de los programas.</item>
+    </list>
+  </content>
+</document>

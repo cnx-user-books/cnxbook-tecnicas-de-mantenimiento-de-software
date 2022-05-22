@@ -1,0 +1,145 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Ingeniería Inversa de Procesos</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>b2289f22-b423-4788-9456-223db2e08c83</md:uuid>
+</metadata>
+  <content>
+    <para id="id4754074">La primera actividad real de la ingeniería inversa comienza con un intento de comprender y posteriormente, extraer las abstracciones de procedimientos representadas por el código fuente. Para comprender las abstracciones de procedimientos, se analiza el código en distintos niveles de abstracción: sistema, programa, componente, configuración y sentencia.</para>
+    <para id="id24859151">Antes de iniciar el trabajo de ingeniería inversa detallado debe comprenderse totalmente la funcionalidad general de todo el sistema de aplicaciones sobre el que se esta operando. Esto es lo que establece un contexto para un análisis posterior, y proporciona ideas generales acerca de los problemas de interoperabilidad entre aplicaciones dentro del sistema. Así pues, cada uno de los programas de que consta el sistema de aplicaciones representará una abstracción funcional con un elevado nivel de detalle, creándose un diagrama de bloques como representación de la iteración entre estas abstracciones funcionales. Cada uno de los componentes de estos diagramas efectúa una subfunción, y representa una abstracción definida de procedimientos. En cada componente se crea una narrativa de procesamientos. En algunas situaciones ya existen especificaciones de sistema, programa y componente. Cuando ocurre tal cosa, se revisan las especificaciones para preciar si se ajustan al código existente, descartando posibles errores.</para>
+    <para id="id9098518">Todo se complica cuando se considera el código que reside en el interior del componente. El ingeniero busca las secciones del código que representan las configuraciones genéricas de procedimientos. En casi todos los componentes, existe una sección de código que prepara los datos para su procesamiento (dentro del componente), una sección diferente de código que efectúa el procesamiento y otra sección de código que prepara los resultados del procesamiento para exportarlos de ese componente. En el interior de cada una de estas secciones, se encuentran configuraciones más pequeñas. Por ejemplo, suele producirse una verificación de los datos y una comprobación de los límites dentro de la sección de código que prepara los datos para su procesamiento.</para>
+    <para id="id22800787">Para los sistemas grandes, la ingeniería inversa suele efectuarse mediante el uso de un enfoque semiautomatizado. Las herramientas CASE se utilizan para “analizar” la semántica del código existente. La salida de este proceso se pasa entonces a unas herramientas de reestructuración y de ingeniería directa que completarán el proceso de reingeniería.</para>
+    <section id="id20871522">
+      <title>Cuándo aplicar ingeniería inversa de procesos</title>
+      <para id="id6606759">Cuando la ingeniería inversa se aplica sobre código de un programa para averiguar su lógica o sobre cualquier documento de diseño para obtener documentos de análisis o de requisitos se habla de ingeniería inversa de procesos.</para>
+      <para id="id22880130">Habitualmente, este tipo de ingeniería inversa se usa para:</para>
+      <list list-type="bulleted" id="id26472691">
+        <item>Entender mejor la aplicación y regenerar el código.</item>
+        <item>Migrar la aplicación a un nuevo sistema operativo.</item>
+        <item>Generar/completar la documentación.</item>
+        <item>Comprobar que el código cumple las especificaciones de diseño.</item>
+      </list>
+      <para id="id14606335">La información extraída son las especificaciones de diseño: se crean modelos de flujo de control, diagramas de diseño, documentos de especificación de diseño, etc. y pudiendo tomar estas especificaciones como nuevo punto de partida para aplicar ingeniería inversa y obtener información a mayor nivel de abstracción. </para>
+    </section>
+    <section id="id23159301">
+      <title>¿Cómo hacemos la ingeniería inversa de procesos?</title>
+      <para id="id15825340">A la hora de realizar ingeniería inversa de procesos se suelen seguir los siguientes pasos:</para>
+      <list list-type="enumerated" id="id3960470">
+        <item>Buscamos el programa principal.</item>
+        <item>Ignoramos inicializaciones de variables, etc.</item>
+        <item>Inspeccionamos la primera rutina llamada y la examinamos si es importante.</item>
+        <item>Inspeccionamos las rutinas llamadas por la primera rutina del programa principal, y examinamos aquéllas que nos parecen importantes.</item>
+        <item>Repetimos los pasos 3-4 a lo largo del resto del software.</item>
+        <item>Recopilamos esas rutinas “importantes”, que se llaman componentes funcionales.</item>
+        <item>Asignamos significado a cada componente funcional, esto es (a) explicamos qué hace cada componente funcional en el conjunto del sistema y (b) explicamos qué hace el sistema a partir de los diferentes componentes funcionales.</item>
+      </list>
+      <para id="id23091179">A la hora de encontrar los componentes funcionales hay que tener en cuenta que los módulos suelen estar ocupados por componentes funcionales. Además, suele haber componentes funcionales cerca de grandes zonas de comentarios y los identificadores de los componentes funcionales suelen ser largos y formados por palabras entendibles.</para>
+      <para id="id16061601">Una vez encontrados los posibles componentes funcionales, conviene repasar la lista teniendo en cuenta que un componente es funcional cuando Un componente es funcional cuando su ausencia impide seriamente el funcionamiento de la aplicación, dificulta la legibilidad del código, impide la comprensión de todo o de otro componente funcional o cuando hace caer a niveles muy bajos la calidad, fiabilidad, mantenibilidad, etc.</para>
+      <para id="id10707410">Vamos a ver cómo a partir de un código java cómo se puede realizar Ingeniería Inversa de Procesos. Tenemos dos clases (Persona y Trabajador)</para>
+      <para id="id5765131">
+        <code display="block" id="idm3325232">class Persona {</code>
+      </para>
+      <para id="id13652619">
+        <code display="block" id="idm7844464"> protected String nombre;</code>
+      </para>
+      <para id="id6813864">
+        <code display="block" id="idm17266688"> protected int edad;</code>
+      </para>
+      <para id="id21444734">
+        <code display="block" id="idm9926032"> protected int seguroSocial;</code>
+      </para>
+      <para id="id13330369">
+        <code display="block" id="idm10385952"> protected String licenciaConducir;</code>
+      </para>
+      <para id="id6500132">
+        <code display="block" id="idm6453200"> public Persona(String nom, int ed, int seg, String lic) {</code>
+      </para>
+      <para id="id16657704">
+        <code display="block" id="idm11494864">set(nom, ed); seguroSocial = seg; licenciaConducir = lic; }</code>
+      </para>
+      <para id="id12738039">
+        <code display="block" id="idm9730480">public Persona() {</code>
+      </para>
+      <para id="id25244837">
+        <code display="block" id="idm6860960">  Persona(null, 0, 0, null); }</code>
+      </para>
+      <para id="id23918144">
+        <code display="block" id="idm8031552"> public int setNombre(String nom) {</code>
+      </para>
+      <para id="id14137684">
+        <code display="block" id="idm4499344">  nombre = nom; return 1; }</code>
+      </para>
+      <para id="id7555538">
+        <code display="block" id="idm9103712"> public int setEdad(int ed) {</code>
+      </para>
+      <para id="id15328830">
+        <code display="block" id="idm8486976">  edad = ed; return 1; }</code>
+      </para>
+      <para id="id24999308">
+        <code display="block" id="idm4164272"> public void set(String nom, int ed) {</code>
+      </para>
+      <para id="id19587651">
+        <code display="block" id="idm6918704">  setNombre(nom); setEdad(ed); }</code>
+      </para>
+      <para id="id14217768">
+        <code display="block" id="idm17779072"> public void set(int ed, String nom) {</code>
+      </para>
+      <para id="id14690408">
+        <code display="block" id="idm11591808">setNombre(nom); setEdad(ed); }</code>
+      </para>
+      <para id="id26621567">
+        <code display="block" id="idm10158368">}</code>
+      </para>
+      <para id="id17908765">
+        <code display="block" id="idm17117840">class Trabajador extends Persona {</code>
+      </para>
+      <para id="id4175529">
+        <code display="block" id="idm8616144"> private String empresa;</code>
+      </para>
+      <para id="id16232914">
+        <code display="block" id="idm4858992"> private int salario;</code>
+      </para>
+      <para id="id8984941">
+        <code display="block" id="idm9221072"> public Trabajador(String emp, int sal) {</code>
+      </para>
+      <para id="id14815673">
+        <code display="block" id="idm10216640"> empresa = emp; salario = sal; }</code>
+      </para>
+      <para id="id17351823">
+        <code display="block" id="idm6766736">public Trabajador() {</code>
+      </para>
+      <para id="id19911156">
+        <code display="block" id="idm9015680">  this(null,0); }</code>
+      </para>
+      <para id="id12807773">
+        <code display="block" id="idp1528928"> public int setEmpresa String emp) {</code>
+      </para>
+      <para id="id13313814">
+        <code display="block" id="idp2150352">  empresa = emp; return 1; }</code>
+      </para>
+      <para id="id16375904">
+        <code display="block" id="idp1896576"> public int setSalario(int sal) {</code>
+      </para>
+      <para id="id20112468">
+        <code display="block" id="idp736832">  salario = sal; return 1; }</code>
+      </para>
+      <para id="id16668170">
+        <code display="block" id="idp2143952"> public void set(String emp, int sal) {</code>
+      </para>
+      <para id="id13639811">
+        <code display="block" id="idm4885936">  setEmpresa(emp); setSalario(sal); }</code>
+      </para>
+      <para id="id24748557">
+        <code display="block" id="idm7433776"> public void set(int sal, String emp) {</code>
+      </para>
+      <para id="id24110188">
+        <code display="block" id="idm4742272">  setEmpresa(emp); setSalario(sal); }</code>
+      </para>
+      <para id="id10653500">
+        <code display="block" id="idm20880">}</code>
+      </para>
+      <para id="id5365000">Si realizamos Ingeniería Inversa, el diagrama UML sería el siguiente:</para>
+      <figure id="id11007902"><media id="idm8860352" alt=""><image src="../../media/Figura11.gif" mime-type="image/gif" height="200" width="622"/></media></figure>
+      <para id="id10575030"><cite><cite-title>Figura 1. Diagrama de clase generado a partir del código Java</cite-title></cite>
+      </para>
+    </section>
+  </content>
+</document>

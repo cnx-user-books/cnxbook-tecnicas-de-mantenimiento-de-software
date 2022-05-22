@@ -1,0 +1,52 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Procesos involucrados en la Reingeniería del Software</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>59303aa6-cbe2-473a-b658-0ffa4084689e</md:uuid>
+</metadata>
+  <content>
+    <para id="id15246419">La reingeniería debe ser entendida como un proceso mediante el cual se mejora un software existente haciendo uso de técnicas de ingeniería inversa y reestructuración de código. </para>
+    <para id="id14555289">Para llevar a cabo la reingeniería del Software se puede realizar a través del modelo Cíclico. Este modelo define seis actividades las cuales se muestran en la figura de abajo. En algunas ocasiones, estas actividades se producen de forma secuencial y lineal, pero esto no siempre es así. Por ejemplo, puede ser que la ingeniería inversa (la comprensión del funcionamiento interno de un programa) tenga que producirse antes de que pueda comenzar la reestructuración de documentos. </para>
+    <figure id="id15388879"><media id="idm8514848" alt=""><image src="../../media/Figura12.gif" mime-type="image/gif" height="245" width="352"/></media></figure>
+    <para id="id4677416">
+      <cite><cite-title> Figura 1. Modelo Cíclico de la Reingeniería del Software</cite-title></cite>
+    </para>
+    <para id="id13862511">El paradigma de la reingeniería mostrado en la figura es un modelo cíclico. Esto significa que cada una de las actividades presentadas como parte del paradigma pueden repetirse en otras ocasiones. Para un ciclo en particular, el proceso puede terminar después de cualquier de estas actividades.</para>
+    <section id="id15287777">
+      <title>Análisis de inventario</title>
+      <para id="id12338043">Todas las organizaciones de software deberán disponer de un inventario de todas sus aplicaciones. El inventario puede que no sea más que una hoja de calculo con la información que proporciona una descripción detallada (por ejemplo: tamaño, edad, importancia para el negocio) de todas las aplicaciones activas.</para>
+      <para id="id15117215">Los candidatos a la reingeniería aparecen cuando se ordena esta información en función de su importancia para el negocio, longevidad, mantenibilidad actual y otros criterios localmente importantes. Es entonces cuando es posible asignar recursos a las aplicaciones candidatas para el trabajo de reingeniería.</para>
+      <para id="id11786814">Es importante destacar que el inventario deberá revisarse con regularidad. El estado de las aplicaciones (por ejemplo, la importancia con respecto al negocio) puede cambiar en función del tiempo y, como resultado, cambiarán también las prioridades para la reingeniería.</para>
+    </section>
+    <section id="id14912724">
+      <title>Reestructuración de documentos</title>
+      <para id="id13466280">Una documentación escasa es la marca de muchos sistemas de información heredados. ¿Qué se puede hacer al respecto?</para>
+      <list list-type="bulleted" id="id13866371">
+        <item>Opción 1: La creación de documentación consume muchísimo tiempo. El sistema funciona, y ya nos ajustaremos con lo que se tiene. En algunos casos, éste es el enfoque correcto. No es posible volver a crear la documentación para cientos de programas de computadoras. Si un programa es relativamente estático está llegando al final de vida útil, y no es probable que experimente muchos cambios.</item>
+        <item>Opción 2: Es preciso actualizar la documentación, pero se dispone de recursos limitados. Se utilizará un enfoque “del tipo documentar si se modifica”. Quizá no es necesario volver a documentar por completo la aplicación. Más bien se documentarán por completo aquellas partes del sistema que estén experimentando cambios en ese momento. La colección de documentos útil y relevante irá evolucionando con el tiempo.</item>
+        <item>Opción 3: El sistema es fundamental para el negocio, y es preciso volver a documentarlo por completo. En este caso, un enfoque inteligente consiste en reducir la documentación al mínimo necesario.</item>
+      </list>
+      <para id="id15200837">Todas y cada una de estas opciones son viables. Las organizaciones del software deberán seleccionar aquella que resulte más adecuada para cada caso.</para>
+    </section>
+    <section id="id14118372">
+      <title>Ingeniería inversa</title>
+      <para id="id14525755">El término “ingeniería inversa” tiene sus orígines en el mundo del hardware. Una cierta compañía desensambla un producto de hardware competitivo en un esfuerzo por comprender los “secretos” del diseño y fabricación de su competidor. Estos secretos se podrán comprender más fácilmente si se obtuvieran las especificaciones de diseño y fabricación del mismo. Pero estos documentos son privados, y no están disponibles para la compañía que efectúa la ingeniería inversa. En esencia, una ingeniería inversa con éxito precede de una o más especificaciones de diseño y fabricación para el producto, mediante el examen de ejemplos reales de ese producto.</para>
+      <para id="id15089884">La ingeniería inversa del software es algo bastante similar. Sin embargo, en la mayoría de los casos, el programa del cual hay que hacer una ingeniería inversa no es el de un rival, sino, más bien, el propio trabajo de la compañía (con frecuencia efectuado hace muchos años). Los “secretos” que hay que comprender resultan incomprensibles porque nunca se llegó a desarrollar una especificación. Consiguientemente, la ingeniería inversa del software es el proceso de análisis de un programa con el fin de crear una representación de programa con un nivel de abstracción más elevado que el código fuente. La ingeniería inversa se extraerá del programa existente información del diseño arquitectónico y de proceso, e información de los datos.</para>
+    </section>
+    <section id="id15395005">
+      <title>Reestructuración del código</title>
+      <para id="id14265242">El tipo más común de reingeniería es la reestructuración del código. Algunos sistemas heredados tienen una arquitectura de programa relativamente sólida, pero los módulos individuales han sido codificados de una forma que hace difícil comprenderlos, comprobarlos y mantenerlos. En estos casos, se puede reestructurar el código ubicado dentro de los módulos sospechosos.</para>
+      <para id="id15281818">Para llevar a cabo esta actividad, se analiza el código fuente mediante una herramienta de reestructuración, se indican las violaciones de las estructuras de programación estructurada, y entonces se reestructura el código (esto se puede hacer automáticamente). El código reestructurado resultante se revisa y se comprueba para asegurar que no se hayan introducido anomalías. Se actualiza la documentación interna del código.</para>
+    </section>
+    <section id="id13067136">
+      <title>Reestructuración de datos</title>
+      <para id="id12486280">Un programa que posea una estructura de datos débil será difícil de adaptar y de mejorar. De hecho, para muchas aplicaciones, la arquitectura de datos tiene más que ver con la viabilidad a largo plazo del programa que el propio código fuente.</para>
+      <para id="id15153128">A diferencia de la reestructuración de código, que se produce en un nivel relativamente bajo de abstracción, la estructuración de datos es una actividad de reingeniería a gran escala. En la mayoría de los casos, la reestructuración de datos comienza por una actividad de ingeniería inversa. La arquitectura de datos actual se analiza minuciosamente y se definen los modelos de datos necesarios. Se identifican los objetos de datos y atributos y, a continuación, se revisan las estructuras de datos a efectos de calidad.</para>
+      <para id="id15125635">Cuando la estructura de datos es débil (por ejemplo, actualmente se implementan archivos planos, cuando un enfoque relacional simplificaría muchísimo el procesamiento), se aplica una reingeniería a los datos.</para>
+      <para id="id11320997">Dado que la arquitectura de datos tiene una gran influencia sobre la arquitectura del programa, y también sobre los algoritmos que los pueblan, los cambios en datos darán lugar invariablemente a cambios o bien de arquitectura o bien de código.</para>
+    </section>
+    <section id="id14328126">
+      <title>Ingeniería directa</title>
+      <para id="id11609575">En un mundo ideal, las aplicaciones se reconstruyen utilizando un “motor de reingeniería” automatizado. En el motor se insertaría el programa viejo, que lo analizaría, reestructuraría y después regeneraría la forma de exhibir los mejores aspectos de la calidad del software. Después de un espacio de tiempo corto, es probable que llegue a aparecer este “motor”, pero los fabricantes de CASE han presentado herramientas que proporcionan un subconjunto limitado de estas capacidades y que se enfrentan con dominios de aplicaciones específicos (por ejemplo, aplicaciones que han sido implementadas empleando un sistema de bases de datos específico). Lo que es más importante, estas herramientas de reingeniería cada vez son más sofisticadas.</para>
+      <para id="id11275807">La ingeniería directa, que se denomina también renovación o reclamación, no solamente recupera la información de diseño de un software ya existente, sino que, además, utiliza esta información en un esfuerzo por mejorar su calidad global. En la mayoría de los casos, el software procedente de una reingeniería vuelve a implementar la funcionalidad del sistema existente, y añade además nuevas funciones y/o mejora el rendimiento global.</para>
+    </section>
+  </content>
+</document>

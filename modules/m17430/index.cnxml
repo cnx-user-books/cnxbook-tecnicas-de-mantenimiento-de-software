@@ -1,0 +1,33 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Factores del coste del Ciclo de Vida del Software</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>82e48bb4-de56-44fd-b069-bf470491e5b7</md:uuid>
+</metadata>
+  <content>
+    <para id="id46375802">El siguiente gráfico, puede mostrar la distribución del coste del ciclo de vida: </para>
+    <figure id="id44759167"><media id="idm8102528" alt=""><image src="../../media/graphics1-f8c7.png" mime-type="image/png" height="255" width="400"/></media></figure>
+    <para id="id46469946">
+      <cite><cite-title>Figura 1. Distribución del coste del ciclo de vida</cite-title></cite>
+    </para>
+    <para id="id47535826">El mantenimiento del software es una importante tarea que habitualmente requiere entre el 70% y 80% del coste del ciclo de vida del producto. Esto es debido a múltiples factores, entre los que podemos encontrar:</para>
+    <list list-type="bulleted" id="id46143187">
+      <item>Inexistencia de métodos, técnicas y herramientas que puedan proporcionar una solución global al mantenimiento.</item>
+      <item>La complejidad de los sistemas se incrementa paulatinamente por la realización de continuas modificaciones.</item>
+      <item>La documentación del sistema es defectuosa e inexistente.</item>
+      <item>Se considera el mantenimiento como una actividad poco creativa, a diferencia del desarrollo.</item>
+      <item>Las actividades de mantenimiento se suelen realizar bajo presión de tiempo.</item>
+      <item>Poca participación del usuario durante el desarrollo del sistema.</item>
+    </list>
+    <para id="id47066242">Las actuaciones comunes para mantener la operatividad del software son:</para>
+    <list list-type="bulleted" id="id46519835">
+      <item>Corrección de defectos en el software.</item>
+      <item>Creación de nuevas funcionalidades en el software por nuevos requisitos de usuario.</item>
+      <item>Mejora de la funcionalidad y del rendimiento.</item>
+    </list>
+    <para id="id44725823">La distribución del tiempo en tareas de mantenimiento se muestra en el siguiente gráfico:</para>
+    <figure id="id44721013"><media id="idm11215472" alt=""><image src="../../media/graphics2-7d77.png" mime-type="image/png" height="267" width="459"/></media></figure>
+    <para id="id46465041">
+      <cite><cite-title>Figura 2. Distribución del tiempo en tareas de Mantenimiento</cite-title></cite>
+    </para>
+    <para id="id47547474">El error que sucede habitualmente es que se dedica escaso tiempo al mantenimiento del software. Se planifica más tiempo para realizar desarrollos (programar) que para el mantenimiento, de ahí, que luego haya errores de costes y de planificación. También es importante el factor de la documentación. Esta siempre tiene que estar actualizada para posibles cambios en el futuro.</para>
+  </content>
+</document>

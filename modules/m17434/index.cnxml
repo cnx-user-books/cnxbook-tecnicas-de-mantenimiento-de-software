@@ -1,0 +1,22 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Ingeniería Inversa de Datos</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>6d388d0f-4675-42f6-a6de-f1e35d6bdcdb</md:uuid>
+</metadata>
+  <content>
+    <para id="id6551813">La Ingeniería Inversa de Bases de Datos es el conjunto de técnicas que permite la obtención de una representación conceptual de un esquema de base de datos a partir de su codificación.</para>
+    <para id="id6551824">Sus aplicaciones son múltiples:</para>
+    <list list-type="bulleted" id="id6551829">
+      <item>Re-documentar, reconstruir y/o actualizar documentación perdida o inexistente de bases de datos</item>
+      <item>Servir como pivote en un proceso de migración de datos</item>
+      <item>Ayudar en la exploración y extracción de datos en bases poco documentadas.</item>
+    </list>
+    <para id="id6551865">La información que se puede extraer, dependiendo del punto de partida puede ser: Entidad, relaciones, atributos, claves primarias o ajenas, etc., a partir de estos elementos se crean modelos de datos, como por ejemplo Diagramas entidad-relación.</para>
+    <para id="id6551881">A continuación se muestra un ejemplo gráfico de Ingeniería Inversa de Datos. A partir del código fuente (diseño físico), se realiza Ingeniería Inversa y se obtiene el Diseño Lógico. A este diseño se vuelve a aplicar Ingeniería Inversa y se obtiene el Diseño Conceptual.</para>
+    <para id="id6568521">
+      <figure id="id6551898">
+        <media id="idm13111184" alt=""><image src="../../media/graphics1-d39e.png" mime-type="image/png" height="593" width="591"/></media>
+      </figure>
+      <cite><cite-title>Figura 1. Ejemplo de Ingeniería Inversa de Datos</cite-title></cite>
+    </para>
+  </content>
+</document>

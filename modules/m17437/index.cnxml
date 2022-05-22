@@ -1,0 +1,10 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Ingeniería Inversa de Interfaces de Usuario</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>98e3b0f8-6632-41d1-ac5d-c52113f9d1ce</md:uuid>
+</metadata>
+  <content>
+    <para id="id17614794">Muchos programas gozan de gran fiabilidad, capacidad de procesamiento, etc., pero sus diseñadores han olvidado la comodidad y facilidad de uso del usuario final (usabilidad). En dichos casos es posible aplicar ingeniería inversa sobre la interfaz de usuario con objeto de mantener la lógica interna del programa para obtener los modelos y especificaciones que sirvieron de base para la construcción de la misma, con objeto de tomarlas como punto de partida en procesos de ingeniería directa que permitan modificar dicha interfaz. </para>
+    <para id="id18909763">En general, como resultado de este tipo de procesos se obtiene la relación entre los distintos componentes de la interfaz de usuario, siendo interesante poder obtener aspectos específicos de modelo de interfaces por separado: modelo de tareas, modelo de presentación,… No obstante, la consecución de este objetivo depende en gran medida de la especificación que se utilizara para generar la interfaz en su momento.</para>
+    <para id="id6538507">Es importante indicar que una interfaz grafica de usuario de sustitución puede que no refleje la interfaz antigua de forma exacta (de hecho, puede ser totalmente diferente). Con frecuencia, merece la pena desarrollar metáforas de interacción nuevas. Por ejemplo, una solicitud de interfaz de usuario antigua en la que un usuario proporcione un factor superior (del 1 al 10) para encoger o agrandar una imagen gráfica. Es posible que una interfaz grafica de usuario diseñada utilice una barra de imágenes y un ratón para realizar la misma función.</para>
+  </content>
+</document>

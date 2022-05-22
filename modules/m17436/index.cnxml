@@ -1,0 +1,517 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Ejemplo de Ingeniería Inversa de Datos</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>40c768a2-8a0f-4d2a-ba18-8737f6c046ad</md:uuid>
+</metadata>
+  <content>
+    <para id="id46905695">La Ingeniería Inversa de Bases de Datos es el conjunto de técnicas que permite la obtención de una representación conceptual de un esquema de base de datos a partir de su codificación.</para>
+    <para id="id46905705">Sus aplicaciones son múltiples: Re-documentar, reconstruir y/o actualizar documentación perdida o inexistente de bases de datos, servir como pivote en un proceso de migración de datos, y ayudar en la exploración y extracción de datos en bases poco documentadas.</para>
+    <para id="id46905722">Ahora se comienza a realizar el análisis por el cual obtendremos el modelo conceptual de una base de datos a partir de un modelo físico.</para>
+    <para id="id46905737">Esta aplicación está implentada en Delphi, con un Oracle Server 8i Lite, por lo tanto los ejemplos están basados en dichos productos. De todas formas, el análisis es el mismo a seguir independientemente del lenguaje o base de datos que utilicemos.</para>
+    <para id="id46905750">Lo primero que se debe de hacer es obtener toda la información posible de la estructura de la base de datos (no de los datos que contiene), es decir, nombre de las tablas, atributos de las tablas, etc. Dicha información se encuentra almacenada en el catálogo de la base de datos (el cual se consulta fácilmente utilizando SQL). La información obtenida a partir del catálogo se debe almacenar en algún lado (se suele crear una serie de clases que permitan almacenar toda la información y además a dichas clases se les agrega cierta funcionalidad que permita manejar fácilmente la información almacenada en ellas).</para>
+    <para id="id46905775">Para realizar la obtención de todas las tablas que componen la base de datos se debe efectuar una consulta SQL. En dicha consulta se obtiene los nombres de las tablas, atributos que componen las tablas con sus características más generales (tipos de datos y si admite valores nulos).</para>
+    <para id="id46905789">La consulta SQL que utilice es la siguiente:</para>
+    <para id="id46905794">
+      <code display="inline">SELECT at.table_name, attc.column_name, attc._data_type, attc.nullable</code>
+    </para>
+    <para id="id46905803">
+      <code display="inline">FROM all_tables at, all_tab_columns attc</code>
+    </para>
+    <para id="id46905811">
+      <code display="inline">WHERE at.table_name = attc.table_name</code>
+    </para>
+    <para id="id46905819">El resultado de dicha consulta será el siguiente: por cada fila habrán cuatro columnas. Las columnas significan lo siguiente: nombre de la tabla, nombre del atributo, tipo de dato del atributo y si el atributo puede ser nulo. Por lo tanto, cada tabla tendrá tantas filas en el resultado de la consulta como atributos posea.</para>
+    <para id="id46905834">Una vez realizada esta consulta se procede a guardarla en las estructuras de almacenamiento. Una vez hecho se puede analizar cuales atributos de las tablas corresponden a la clave primaria, cuales son claves foráneas y cuales son claves únicas (que en el modelo de normalización serían las claves candidatas).</para>
+    <para id="id46905848">Para obtener aquellos atributos que componen la clave primaria de una tabla dada se realiza la siguiente consulta, que se debe realizar para cada tabla existente en la base de datos, cambiando en la siguiente consulta NombreTabla por el nombre de la tabla que se consulta (a partir de este momento, cada vez que se coloque NombreTabla se entenderá que es la tabla que nos encontramos analizando). Aquí va la consulta SQL realizada:</para>
+    <para id="id46905875">
+      <code display="inline">SELECT column_name</code>
+    </para>
+    <para id="id46905883">
+      <code display="inline">FROM all_constraints ac, all_cons_columns acc</code>
+    </para>
+    <para id="id46905891">
+      <code display="inline">WHERE ac.table_name = 'NombreTabla'</code>
+    </para>
+    <para id="id46905900">
+      <code display="inline">AND ac.constraint_type = 'P'</code>
+    </para>
+    <para id="id46905912">
+      <code display="inline">AND ac.constraint_name = acc.constraint_name</code>
+    </para>
+    <para id="id46905923">
+      <code display="inline">ORDER BY acc.position;</code>
+    </para>
+    <para id="id46905932">El resultado de esta consulta es una fila para cada atributo que forma parte de la clave primaria. Dichos atributos se desplegarán en orden ascendente según su posición, para así poder ingresarlos en el orden por el cual fueron definidos.</para>
+    <para id="id46905944">A continuación se obtendrán los atributos que forman las claves foráneas de una tabla, y las tablas a las cuales hace referencia dicha clave foránea perteneciente a una determinada tabla, que se llamará nuevamente NombreTabla.</para>
+    <para id="id46905956">
+      <code display="inline">SELECT ac.constraint_name, column_name, r_constraint_name</code>
+    </para>
+    <para id="id46905965">
+      <code display="inline">FROM all_constraints ac, all_cons_columns acc</code>
+    </para>
+    <para id="id46905974">
+      <code display="inline">WHERE ac.table_name = 'NombreTabla'</code>
+    </para>
+    <para id="id46905983">
+      <code display="inline">AND ac.constraint_type = 'R'</code>
+    </para>
+    <para id="id46905995">
+      <code display="inline">AND ac.constraint_name = acc.constraint_name</code>
+    </para>
+    <para id="id46906007">
+      <code display="inline">ORDER BY acc.position;</code>
+    </para>
+    <para id="id46906019">Como resultado se obtiene una fila por cada atributo que compone a una clave foránea. Cada constraint (clave foránea en este caso) tendrá tantas filas como atributos los compongan. Por cada columna tenemos la siguiente información en el siguiente orden: nombre del constraint, nombre del atributo y nombre del constraint al cual hace referencia.</para>
+    <para id="id46906035">A partir de los constraints a los cuales se hacen referencia, se puede obtener fácilmente a que tabla pertenecen por medio de la siguiente consulta:</para>
+    <para id="id46906044">
+      <code display="inline">SELECT table_name</code>
+    </para>
+    <para id="id46906052">
+      <code display="inline">FROM all_constraints</code>
+    </para>
+    <para id="id46906061">
+      <code display="inline">WHERE constraint_name = 'NombreConstraint'</code>
+    </para>
+    <para id="id46906072">Con la consulta anterior obtenemos a que tabla pertenece el constraint NombeConstraint y por lo tanto, si una clave foránea hace referencia al constraint NombreConstraint, entonces ahora sabemos a que tabla hace referencia dicha clave foránea.</para>
+    <para id="id46906088">Finalmente, para la carga de datos sólo falta averiguar cuales son los atributos que componen a las claves únicas. Para esto se realiza la siguiente consulta:</para>
+    <para id="id46906100">
+      <code display="inline">SELECT ac.constraint_name, column_name</code>
+    </para>
+    <para id="id46906108">
+      <code display="inline">FROM all_constraints ac, all_cons_columns acc</code>
+    </para>
+    <para id="id46906117">
+      <code display="inline">WHERE ac.table_name = 'NombreTabla'</code>
+    </para>
+    <para id="id46906126">
+      <code display="inline">AND ac.constraint_type = 'U'</code>
+    </para>
+    <para id="id46906138">
+      <code display="inline">AND ac.constraint_name = acc.constraint_name</code>
+    </para>
+    <para id="id46906150">
+      <code display="inline">ORDER BY acc.position;</code>
+    </para>
+    <para id="id46906162">La consulta anterior devuelve todas las claves únicas que existen en una tabla. Cada clave única tendrá tantas filas en el resultado de la consulta como atributos la compongan. El significado de las columnas es el siguiente: nombre del constraint (o sea, de la clave única en este caso) y nombre del atributo.</para>
+    <section id="id46906181">
+      <title>Análisis de las tablas</title>
+      <para id="id46906194">A continuación se presenta como determinar que representación conceptual tiene una tabla dada. Es decir, por ejemplo, una tabla puede ser considerada una entidad, una relación binaria, una relación ternaria, una categorización, etc.</para>
+      <para id="id46906211">En general, el siguiente análisis debe ser realizado por todas las tablas. Como guía, se presenta un diagrama de flujo, que es el que se debe seguir a la hora de analizar una tabla. Es decir, a una tabla dada se le realizarán ciertas pruebas y en función de los resultados de dichas pruebas decidiremos que 'camino' del diagrama de flujo seguir.</para>
+      <para id="id46906231">A continuación se presenta el diagrama de árbol que sirve de ayuda a la hora de realizar el análisis.</para>
+      <para id="id46906239">
+        <figure id="id46906249">
+          <media id="idp2668992" alt=""><image src="../../media/graphics1-477f.png" mime-type="image/png" height="392" width="496"/></media>
+        </figure>
+      </para>
+      <para id="id46906273">
+        <cite><cite-title>Figura 1. Diagrama de árbol</cite-title></cite>
+      </para>
+    </section>
+    <section id="id46906286">
+      <title>Determinar si una tabla corresponde a una entidad o a una relación</title>
+      <para id="id46902677">Lo primero que se debe realizar en el proceso del análisis es determinar si el modelo conceptual de una tabla corresponde a una entidad o a una relación.</para>
+      <para id="id46902687">Para realizar dicho análisis, se intentan probar distintos casos, mediante los cuales se podrá descartar las diferentes opciones.</para>
+      <section id="id46902696">
+        <title>Determinar si corresponde a una entidad aislada</title>
+        <para id="id46902710">Tal vez el término 'aislada' no es el más adecuado, debido a que en un modelo relacional bien hecho, muy difícilmente existan tablas completamente aisladas. En este análisis se refiere a entidades aisladas cuando una tabla no posee claves foráneas a otras tablas. Mediante el análisis de esta tabla no se puede saber a priori las relaciones en las que participa dicha tabla, pero sí se podrá determinar más adelante del análisis. Por lo tanto no es una entidad aislada, sino que más bien es una potencial entidad aislada, pero no se sabrá hasta finalizar el análisis de todas las tablas.</para>
+        <para id="id46902734">Determinar si una tabla corresponde a un entidad aislada es muy sencillo, lo único que se debe hacer es fijarse si dicha tabla posee claves foráneas. En el caso de que posea estamos seguros de que no es una entidad aislada y podemos proseguir con el análisis de la tabla, pero si se diera el caso que no posee ninguna clave foránea, entonces estamos seguros que corresponde a una entidad aislada, por lo que podemos agregar dicha tabla a nuestra estructura de almacenamiento entidades y pasar a analizar la siguiente tabla.</para>
+      </section>
+      <section id="id46902761">
+        <title>Determinar si corresponde a una categorización</title>
+        <para id="id46902776">Las categorizaciones se caracterizan por lo siguiente: toda la clave primaria de una tabla 'hija' forma una (y solo una) clave foránea a la tabla 'madre'.</para>
+        <para id="id46902785">Si se llega a este punto se sabe que la tabla posee por lo menos una clave foránea (por dicha razón no es considerada una entidad aislada). Lo primero que se debe hacer es fijarse si los atributos que componen a la clave primaria de la tabla componen a su vez una clave foránea. Con esto quiero decir que los atributos que componen la clave primaria NO componen a más de una clave foránea. En el caso que los atributos que componen la clave primaria no compongan ninguna clave foránea, o que compongan a más de una clave foránea, se está seguro de que no nos encontramos frente a una categorización.</para>
+        <para id="id46902802">A continuación se plantea un ejemplo sencillo de categorización mediante el uso de tres tablas: empleados, gerentes y secretarias. La estructura física de las tres tablas es la siguiente:</para>
+        <table id="id46902813" summary="">
+          <tgroup cols="3">
+            <colspec colnum="1" colname="c1"/>
+            <colspec colnum="2" colname="c2"/>
+            <colspec colnum="3" colname="c3"/>
+            <tbody>
+              <row>
+                <entry>Empleados</entry>
+                <entry>Gerentes</entry>
+                <entry>Secretarias</entry>
+              </row>
+              <row>
+                <entry>Número_Empleado (PK)</entry>
+                <entry>Número_Empleado (PKFK)</entry>
+                <entry>Número_Empleado(PKFK)</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+        <para id="id46902898">El atributo Número_Empleado, tanto en la tabla Gerentes como en la tabla Secretarias, forma una clave foránea a la tabla Empleados.</para>
+        <para id="id46902907">Debido a que tanto la tabla Gerentes como la tabla Secretarias no poseen más claves foráneas, deducimos instantáneamente que no es una tabla que represente una relación, sino que existe una categorización. Por lo tanto, la representación sería la siguiente:</para>
+        <figure id="id46902923">
+          <media id="idm2198240" alt=""><image src="../../media/graphics2-3866.png" mime-type="image/png" height="188" width="351"/></media>
+        </figure>
+        <para id="id46902947">Imaginemos el siguiente caso:</para>
+        <table id="id46902952" summary="">
+          <tgroup cols="3">
+            <colspec colnum="1" colname="c1"/>
+            <colspec colnum="2" colname="c2"/>
+            <colspec colnum="3" colname="c3"/>
+            <tbody>
+              <row>
+                <entry>Empleados</entry>
+                <entry>Gerentes</entry>
+                <entry>Secretarias</entry>
+              </row>
+              <row>
+                <entry>Número_Empleado (PK)</entry>
+                <entry>Número_Empleado (PKFK)</entry>
+                <entry>Número_Empleado(PKFK)Número_Computadora(FK)</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+        <para id="id46903038">Si se nos diera este caso debemos realizar un análisis más profundo para poder determinar si la tabla Secretarias pertenece a una categorización, debido a que la representación conceptual de esta tabla podría ser cualquiera de las siguientes:</para>
+        <para id="id46903050">Caso 1:</para>
+        <figure id="id46903058">
+          <media id="idp6347872" alt=""><image src="../../media/graphics3.png" mime-type="image/png" height="273" width="351"/></media>
+        </figure>
+        <para id="id46903082">Caso 2:</para>
+        <figure id="id46903089">
+          <media id="idm2387840" alt=""><image src="../../media/graphics4.png" mime-type="image/png" height="221" width="346"/></media>
+        </figure>
+        <para id="id46903113">Como se puede observar, son representaciones completamente diferentes. En la primera Secretarias forma parte de una categorización, y en la segunda Secretarias es considerada una relación entre Empleados y Computadoras, con cardinalidades N–1 o 1–1.</para>
+        <para id="id46903129">En ocasiones es posible poder diferenciar entre los dos casos. La única forma de hacerlo es examinando el atributo Número_Computadora que pertenece a la tabla Secretarias y que hace referencia a la tabla Computadoras: si dicho atributo admite valores nulos, estamos completamente seguros que nos encontramos en el primer caso y no en el segundo. Esto es debido a que si Secretarias fuese una tabla que representa una relación entre Empleados y Computadoras, el atributo Número_Computadora NO podría aceptar valores nulos, debido a que por definición, las relaciones binarias son pares ordenados.</para>
+        <para id="id46903149">Si se nos plantea el caso de que el atributo Número_Computadora perteneciente a la tabla Secretarias no admite valores nulos, es imposible diferenciar entre los dos casos que planteamos anteriormente, por lo tanto debemos adoptar criterios para poder diferenciar entre ellos (por ejemplo, valores por omisión).</para>
+        <para id="id46903163">Una vez terminada esta parte del análisis sabemos si la tabla pertenece a una categorización o no, si perteneciera a una categorización se almacena en las estructuras de almacenamiento, y se analiza el resto de las claves foráneas que posee la tabla como si se tratase de una tabla que representa a una entidad referente.</para>
+      </section>
+      <section id="id46903183">
+        <title>Determinar si corresponde a una entidad referente</title>
+        <para id="id46903196">Entidad referente es una tabla que hace referencia a otras tablas (son las clásicas relaciones 1–N o 1–1).</para>
+        <para id="id46903207">Si llegamos a este punto sabemos que no nos encontramos frente a una tabla que representa a una entidad aislada y que tampoco corresponde a una categorización. Por lo tanto, ya se está seguro de que esta tabla es una tabla referente dado que tampoco puede representar una relación debido a que en una tabla que represente una relación los atributos que forman la clave primaria de la tabla deben formar también al menos una clave foránea.</para>
+        <para id="id46903231">Sabemos que cada clave foránea que posea la tabla representará una relación binaria (debido a que es el único tipo de relación que puede representarse sin utilizar una tabla) entre la tabla que nos encontramos analizando y la tabla a la cual hace referencia la clave foránea. Además sabemos que la cardinalidad de dicha relación es 1–1, o bien 1–N, debido a que si fuese N–N se debería haber representado por medio de una tabla. Finalmente también sabemos que la cardinalidad correspondiente a la tabla que nos encontramos analizando es 1.</para>
+      </section>
+    </section>
+    <section id="id46903274">
+      <title>Análisis de una tabla que representa una relación</title>
+      <para id="id46903283">El análisis de una relación puede llegar a ser el más complejo debido a la cantidad de casos diferentes que existen (recuerde que una tabla podría representar una relación de N entidades, por lo tanto el número de tablas que podría llegar a relacionar es variable e infinito).</para>
+      <para id="id46903299">En todos los casos en los cuales una tabla representa una relación nos es imposible determinar las totalidades y parcialidades de la relación. Si se prueba que la tabla es una relación se coloca a esta junto con todos sus datos en nuestras estructuras de almacenamiento de relaciones (por ejemplo, nombre de la relación, tablas que relaciona, cardinalidad, etc.).</para>
+      <section id="id46903316">
+        <title>Relación binaria 1–1</title>
+        <para id="id46903337">Para explicar este caso plantearemos la siguiente situación: dada las entidades A y B que se relacionan mediante una relación con cardinalidad 1–1, tenemos que dado un elemento de A sólo existe un elemento de B y dado un elemento de B sólo existe un elemento de A. Ahora, para representar dicha situación mediante una tabla sólo existe una forma, y es la siguiente: una de las foráneas debe ser obligatoriamente la clave primaria (digo una porque recordemos que la clave primaria determina de forma única y mínima a cualquier tupla de la relación, y debido a que queremos representar una relación 1–1), con eso representaríamos una de las cardinalidades 1 (por ejemplo, la de A), pero aún nos falta representar la segunda cardinalidad 1 (siguiendo con el ejemplo la de B). Para realizar esto último debemos hacer uso de las claves candidatas, es decir, debemos hacer que la segunda clave foránea sea a su vez clave única (con esto representaríamos que B también posee clave única).</para>
+        <para id="id46903381">A continuación se plantea un ejemplo para intentar clarificar este punto.</para>
+        <table id="id46903388" summary="">
+          <tgroup cols="3">
+            <colspec colnum="1" colname="c1"/>
+            <colspec colnum="2" colname="c2"/>
+            <colspec colnum="3" colname="c3"/>
+            <tbody>
+              <row>
+                <entry>Vehículos</entry>
+                <entry>Matrículas_Vehículos</entry>
+                <entry>Matrículas</entry>
+              </row>
+              <row>
+                <entry>Número_Vehículo(PK)Número_Matrícula(FK)</entry>
+                <entry>Número_Vehículo(PKFK)</entry>
+                <entry>Número_Matrícula(PK)</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+        <para id="id46903475">Obviamente la tabla Matrículas_Vehículos intenta representar una relación entre las entidades Vehículos y Matrículas. Como vemos, Número_Vehículo es una clave foránea y a su vez es clave primaria de la tabla, por lo que deducimos que la cardinalidad de Vehículos es 1. Ahora, si queremos representar una relación binaria 1–1 debemos hacer que los atributos que componen a la otra clave foránea (en este caso Número_Matrícula) además de foráneos sean únicos en la tabla. Con esto último representaríamos que Matrículas también posee cardinalidad 1 en la relación.</para>
+        <para id="id46903498">A continuación presento un conjunto de tuplas para clarificar la necesidad de poseer la clave única.</para>
+        <table id="id46903506" summary="">
+          <tgroup cols="4">
+            <colspec colnum="1" colname="c1"/>
+            <colspec colnum="2" colname="c2"/>
+            <colspec colnum="3" colname="c3"/>
+            <colspec colnum="4" colname="c4"/>
+            <tbody>
+              <row>
+                <entry>Vehículos</entry>
+                <entry>Matrículas_Vehículos</entry>
+                <entry>Matrículas</entry>
+                <entry>Válido</entry>
+              </row>
+              <row>
+                <entry>8946</entry>
+                <entry>Num_Veh: 8946Num_Mat: SAB 555</entry>
+                <entry>SAB 555</entry>
+                <entry>Sí</entry>
+              </row>
+              <row>
+                <entry>8946</entry>
+                <entry>Num_Veh: 8946Num_Mat: SAK 430</entry>
+                <entry>SAK 430</entry>
+                <entry>No</entry>
+              </row>
+              <row>
+                <entry>1388</entry>
+                <entry>Num_Veh: 1388Num_Mat: SAK 430</entry>
+                <entry>SAK 430</entry>
+                <entry>No</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+        <para id="id46797072">Como se ve en el ejemplo de tuplas anterior, existe una necesidad de especificar el atributo Número_Matrícula como único.</para>
+        <para id="id46797080">En teoría deberíamos especificar las dos claves foráneas como únicas, pero debido a que la definición de clave primaria es que es única y no nula, queda implícito que si una clave foránea debe ser a su vez clave primaria, entonces dicha clave foránea también es única. </para>
+      </section>
+      <section id="id46797095">
+        <title>Relación binaria N–1 / 1–N</title>
+        <para id="id46797109">En este tipo de relación solo poseemos dos claves foráneas. Para esta situación, los atributos que componen la clave foránea correspondiente a la entidad que posee cardinalidad N deben formar a su vez la clave primaria de la tabla. A diferencia de el caso anterior, los atributos que forman la clave foránea correspondiente a la otra entidad NO pueden ser declarados como únicos.</para>
+      </section>
+      <section id="id46797132">
+        <title>Relación binaria N–N</title>
+        <para id="id46797146">A diferencia de los casos anteriores, este tipo de relación sí puede formar agregaciones, y debemos hacer ciertas consideraciones antes de comenzar su análisis.</para>
+        <para id="id46797156">Para representar este tipo de relación siempre se debe utilizar una tabla, y los atributos que compongan las claves foráneas correspondientes a las dos tablas que relaciona deben formar a su vez la clave primaria de la tabla.</para>
+        <para id="id46797167">En el caso que la clave primaria este formada por una sola clave foránea, y que a su vez no todos los atributos de dicha clave foránea formen a la clave primaria, podemos considerar que se quiere representar a una entidad no representada (es decir, que dicha entidad existe en el modelo conceptual, pero no en el físico y lógico).</para>
+        <para id="id46797183">A continuación se presenta un caso sencillo de este tipo de relación.</para>
+        <table id="id46797190" summary="">
+          <tgroup cols="3">
+            <colspec colnum="1" colname="c1"/>
+            <colspec colnum="2" colname="c2"/>
+            <colspec colnum="3" colname="c3"/>
+            <tbody>
+              <row>
+                <entry>Alumnos</entry>
+                <entry>Asignaturas_Alumnos</entry>
+                <entry>Asignaturas</entry>
+              </row>
+              <row>
+                <entry>Número_Alumno(PK)Número_Asignatura(PKFK)</entry>
+                <entry>Número_Alumno(PKFK)</entry>
+                <entry>Número_Asignatura(PK)</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+        <para id="id46797276">Se observa que la clave primaria de la tabla Asignaturas_Alumnos se encuentra formada por dos claves foráneas. Debido a que la tabla Asignaturas_Alumnos no posee ninguna clave foránea a excepción de las que componen a la clave primaria, deducimos rápidamente que nos encontramos frente a una relación binaria N–N.</para>
+        <para id="id46797295">Por lo tanto, la representación conceptual de las tablas anteriores es la siguiente:</para>
+        <figure id="id46797305">
+          <media id="idp5788944" alt=""><image src="../../media/graphics5.png" mime-type="image/png" height="247" width="105"/></media>
+        </figure>
+        <para id="id46797329">El caso de ejemplo que planteamos anteriormente ilustra un caso típico, en el cual podemos deducir sin ambigüedades la cardinalidad y tipo de relación existente, pero imagínese el siguiente caso:</para>
+        <table id="id46797340" summary="">
+          <tgroup cols="2">
+            <colspec colnum="1" colname="c1"/>
+            <colspec colnum="2" colname="c2"/>
+            <tbody>
+              <row>
+                <entry>Alumnos</entry>
+                <entry>Asignaturas_Alumnos</entry>
+              </row>
+              <row>
+                <entry>Número_Alumno(PK)</entry>
+                <entry>Número_Alumno (PKFK)Número_Asignatura (PKFK) Número_Semestre (FK)</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+        <para id="id46797403">  </para>
+        <table id="id46797407" summary="">
+          <tgroup cols="2">
+            <colspec colnum="1" colname="c1"/>
+            <colspec colnum="2" colname="c2"/>
+            <tbody>
+              <row>
+                <entry>Asignaturas</entry>
+                <entry>Semestres</entry>
+              </row>
+              <row>
+                <entry>Número_Asignatura (PK)</entry>
+                <entry>Número_Semestre (PK)</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+        <para id="id46797468">La tabla Asignaturas_Alumnos posee las siguientes características: la clave primaria de la tabla se compone por dos claves foráneas, pero además posee una clave foránea que no compone a la primaria. Es obvio que nos encontramos frente a una tabla que representa una relación, pero el problema es determinar el tipo de relación existente. Si nos enfrentamos a un caso similar a este, se nos pueden plantear dos posibilidades que mostramos a continuación:</para>
+        <para id="id46797492">Caso 1:</para>
+        <figure id="id46797500">
+          <media id="idm1261424" alt=""><image src="../../media/graphics6.png" mime-type="image/png" height="252" width="373"/></media>
+        </figure>
+        <para id="id46797524">Caso 2:</para>
+        <figure id="id46797531">
+          <media id="idp3879664" alt=""><image src="../../media/graphics7.png" mime-type="image/png" height="245" width="261"/></media>
+        </figure>
+        <para id="id46797555">Como notará, existe una gran diferencia entre las dos posibilidades, debido a que la primera corresponde a una relación binaria formando una agregación, pero en el segundo caso la relación es ternaria. Está situación se plantea debido a que si una relación forma una agregación que se relaciona con otra entidad, si dicha relación (entre la agregación y la entidad) posee cardinalidades 1–1 o N–1, existe la posibilidad de que no se represente la relación por medio de una tabla.</para>
+        <para id="id46797580">Para poder resolver este problema sólo tenemos dos posibilidades. La primera es examinando los atributos que forman la clave foránea que no compone la clave primaria de la tabla que representa la relación y en el caso de que dichos atributos admitan valores nulos, entonces deducimos directamente que nos encontramos frente al caso de una agregación, debido a que si fuese una relación ternaria no debería admitir valores nulos. Si la primer opción falla, tenemos una ultima opción y es intentar probar una relación 1–1 cruzada entre la relación y la entidad (en nuestro ejemplo entre la tabla Asignaturas_Alumnos y Semestres) en el caso de que probemos que existe una relación 1–1 cruzada podemos decir con total seguridad que nos encontramos frente a una agregación.</para>
+      </section>
+      <section id="id46797604">
+        <title>Análisis de una relación n–aria</title>
+        <para id="id46797619">Si llegamos a este punto, sabemos con certeza de que la tabla representa una relación, y que a su vez esta relación no es binaria. Por ende, nos queda sólo determinar si es o no una agregación, y en el caso que no lo sea analizar las características de la relación (cardinalidad, entidades que relaciona, etc.).</para>
+        <para id="id46797638">Para realizar este análisis consideraremos que una relación n–aria es una relación que relaciona N entidades, siendo N un número mayor que dos (esto lo haremos porque las binarias las analizamos en la sección anterior, pero no se debe perder de vista que una relación binaria es un caso particular de una relación n–aria). A pesar de este hecho, existen tres posibilidades bien diferenciadas en una relación n–aria, vinculadas con sus cardinalidades: la primera es que todas sus cardinalidades sean uno, la segunda es que todas sus cardinalidades sean N y finalmente que sus cardinalidades sean una mezcla entre unos y enes.</para>
+      </section>
+      <section id="id46797654">
+        <title>Relación n–aria con todas sus cardinalidades N</title>
+        <para id="id46797669">Si una tabla representa una relación n–aria con todas sus cardinalidades N, entonces sabemos con certeza de que dicha tabla no posee claves únicas para representar su cardinalidad (debido a que no necesita esto).</para>
+        <para id="id46797680">Distinguir este tipo de relación es sumamente fácil, debido a que para representar esta cardinalidad todas las claves foráneas que forman la relación deben formar a su vez la clave primaria de la tabla.</para>
+        <para id="id46797691">Ahora puede darse el caso de que se quiera representar una relación entre varias entidades, en donde una de estas entidades no se represente tanto en el modelo lógico como en el físico. No tenemos duda que es una relación n–aria con todas sus cardinalidades N, debido a que no posee claves únicas y todas las claves foráneas forman la clave primaria. Pero no todos los atributos que componen a la clave primaria son foráneos, por lo tanto deducimos que existen entidades no representadas en el modelo físico. Aquí se evaluarán dichos atributos según los criterios que nosotros impongamos (por ejemplo, cada atributo es una entidad no representada, preguntar al usuario, etc.).</para>
+        <para id="id46797717">A continuación planteo un ejemplo, de una relación n–aria con entidades no representadas:</para>
+        <table id="id46797725" summary="">
+          <tgroup cols="3">
+            <colspec colnum="1" colname="c1"/>
+            <colspec colnum="2" colname="c2"/>
+            <colspec colnum="3" colname="c3"/>
+            <tbody>
+              <row>
+                <entry>Tipos_de_Movimientos</entry>
+                <entry>Conformes</entry>
+                <entry>Tipos_Conformes</entry>
+              </row>
+              <row>
+                <entry>Número_Tipo (PK)</entry>
+                <entry>Número_Conforme (PK)</entry>
+                <entry>Número_Tipo (PKFK)Número_Conforme (PKFK)Fecha (PK)</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+        <para id="id46797811">En las tablas anteriores, notamos que en la tabla Tipos_Conformes el atributo Fecha forma parte de la clave primaria de la tabla, pero no compone ninguna clave foránea, por lo tanto deducimos que es una entidad no representada (no sería lógico tener en el modelo físico una tabla con todas las fechas posibles; en cambio, en el modelo conceptual sí es útil y muchas veces necesario).</para>
+        <para id="id46797828">La representación conceptual de la tabla anteriormente expuesta es la siguiente:</para>
+        <figure id="id46797841">
+          <media id="idm4078864" alt=""><image src="../../media/graphics8.png" mime-type="image/png" height="178" width="353"/></media>
+        </figure>
+      </section>
+      <section id="id46797866">
+        <title>Relación n–aria con todas sus cardinalidades 1</title>
+        <para id="id46797881">Para determinar si una relación pertenece a este tipo debemos estudiar sus claves candidatas (es decir, sus claves únicas). En este caso sabemos que toda clave foránea que pertenezca a una entidad que esta tabla relaciona se debe encontrar ya sea en la clave primaria o en alguna de sus claves únicas.</para>
+        <para id="id46797900">A continuación planteamos un ejemplo de este tipo de relación por medio de una relación ternaria:</para>
+        <table id="id46797908" summary="">
+          <tgroup cols="2">
+            <colspec colnum="1" colname="c1"/>
+            <colspec colnum="2" colname="c2"/>
+            <tbody>
+              <row>
+                <entry>Matrículas</entry>
+                <entry>Vehículos</entry>
+              </row>
+              <row>
+                <entry>Número_Matrícula (PK)</entry>
+                <entry>Número_Matrícula (PK)</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+        <para id="id46797969">  </para>
+        <table id="id46797974" summary="">
+          <tgroup cols="2">
+            <colspec colnum="1" colname="c1"/>
+            <colspec colnum="2" colname="c2"/>
+            <tbody>
+              <row>
+                <entry>Departamentos</entry>
+                <entry>Matrículas_Vehículos_Departamentos</entry>
+              </row>
+              <row>
+                <entry>Número_Departamento (PK)</entry>
+                <entry>Número_Matrícula (PKFK)Número_Vehículo (PKFK)Número_Departamento (FK)</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+        <para id="id46798038">En este caso existirán dos claves únicas además de la clave primaria. Dichas claves únicas son (Número_Matrícula, Número_Departamento) y (Número_Vehículo, Número_Departamento).</para>
+        <para id="id46798053">Entonces en este caso deducimos que la relación es 1-1-1 debido a que al haber una clave foránea que no es primaria, entonces sabemos que la cardinalidad de la entidad a la cual hace referencia dicha clave foránea es 1. Ahora listamos todas las claves únicas con los atributos que la componen. Para cada caso aquel atributo que no se encuentre en una clave única y que nosotros sepamos que hace referencia a una entidad que relaciona la tabla, entonces sabemos con certeza que tiene cardinalidad 1, es decir, si Número_Matrícula-Número_Departamento componen una clave única sabemos que Número_Vehículo tiene cardinalidad 1.</para>
+        <para id="id46798069">Ahora pasaremos a justificar lo anterior con un ejemplo, ingresando algunas tuplas a las tablas de la relación antes citada.</para>
+        <table id="id46798077" summary="">
+          <tgroup cols="4">
+            <colspec colnum="1" colname="c1"/>
+            <colspec colnum="2" colname="c2"/>
+            <colspec colnum="3" colname="c3"/>
+            <colspec colnum="4" colname="c4"/>
+            <tbody>
+              <row>
+                <entrytbl namest="c1" nameend="c3" cols="3">
+                  <colspec colnum="1" colname="c1"/>
+                  <colspec colnum="2" colname="c2"/>
+                  <colspec colnum="3" colname="c3"/>
+                  <tbody>
+                    <row>
+                      <entry namest="c1" nameend="c3">Matrículas_Vehículos_Departamentos</entry>
+                    </row>
+                    <row>
+                      <entry>Núm_Mat</entry>
+                      <entry>Núm_Veh</entry>
+                      <entry>Núm_Dep</entry>
+                    </row>
+                  </tbody>
+                </entrytbl>
+                <entry>Válido</entry>
+              </row>
+              <row>
+                <entry>SAK 445</entry>
+                <entry>4670</entry>
+                <entry>10</entry>
+                <entry>Sí</entry>
+              </row>
+              <row>
+                <entry>SAK 445</entry>
+                <entry>890</entry>
+                <entry>10</entry>
+                <entry>No</entry>
+              </row>
+              <row>
+                <entry>SSD 320</entry>
+                <entry>430</entry>
+                <entry>11</entry>
+                <entry>Sí</entry>
+              </row>
+              <row>
+                <entry>DFF 440</entry>
+                <entry>4670</entry>
+                <entry>10</entry>
+                <entry>No</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+        <para id="id46798354">Debido a que Número_Matrícula, Número_Vehículo son clave primaria de la tabla, entonces deducimos que la entidad Departamentos tiene cardinalidad 1.</para>
+        <para id="id46798363">Ahora, a partir del ejemplo que mostramos ingresando tuplas, deducimos que un valor de Número_Vehículo y Número_Departamento estos sólo pueden aparecer juntos en una misma tupla una sola vez en toda la tabla. Por ende estos dos atributos forman una clave única, deduciendo entonces que la entidad Matrículas tiene cardinalidad 1. De la misma forma ocurre con la entidad Vehículos.</para>
+        <para id="id46798380">Por lo tanto la representación conceptual de este conjunto de tablas es la siguiente:</para>
+        <para id="id46798388">
+          <figure id="id46798397">
+            <media id="idm6937504" alt=""><image src="../../media/graphics9.png" mime-type="image/png" height="178" width="353"/></media>
+          </figure>
+        </para>
+      </section>
+      <section id="id46798422">
+        <title>Relación n–aria con sus cardinalidades mezcladas</title>
+        <para id="id46798431">Se entiende por cardinalidad mezclada la cardinalidad de la relación no es ni todas uno ni todas enes, sino que la cantidad de cardinalidades unos y enes son variables.</para>
+        <para id="id46798444">Para resolver este tipo de relación, nuevamente haremos uso de las claves candidatas (claves únicas). El análisis lo haré basándome en un ejemplo.</para>
+        <table id="id46798453" summary="">
+          <tgroup cols="2">
+            <colspec colnum="1" colname="c1"/>
+            <colspec colnum="2" colname="c2"/>
+            <tbody>
+              <row>
+                <entry>Personas</entry>
+                <entry>Personas_Garantes</entry>
+              </row>
+              <row>
+                <entry>Número_Persona (PK)</entry>
+                <entry>Número_Persona_Garante (PK)</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+        <para id="id46798514">  </para>
+        <table id="id46798518" summary="">
+          <tgroup cols="2">
+            <colspec colnum="1" colname="c1"/>
+            <colspec colnum="2" colname="c2"/>
+            <tbody>
+              <row>
+                <entry>Conformes</entry>
+                <entry>Conformes_Personas</entry>
+              </row>
+              <row>
+                <entry>Número_Conforme (PK)</entry>
+                <entry>Número_Persona (PKFK)Número_Conforme (PKFK)Número_Persona_Garante (FK)</entry>
+              </row>
+            </tbody>
+          </tgroup>
+        </table>
+        <para id="id46798581">Como podemos observar en los esquemas que describimos anteriormente, la tabla que representa la relación tiene la siguiente clave primaria compuesta: Número_Persona, Número_Conforme; por lo cual deducimos directamente que la cardinalidad de la entidad Personas_Garantes es 1.</para>
+        <para id="id46798595">Luego tras analizar las claves únicas que posee la tabla deducimos que posee una clave única compuesta por los siguientes atributos: Número_Conforme, Número_Persona_Garante, por lo cual deducimos que la entidad Personas también posee cardinalidad 1. Finalmente al no poseer más claves únicas llegamos a la conclusión de que la cardinalidad de esta relación es 1-1-N.</para>
+      </section>
+    </section>
+    <section id="id46798618">
+      <title>Conclusión del ejemplo</title>
+      <para id="id46798632">Se ha podido observar todo el análisis exhaustivo que se ha realizado a través del código fuente (diseño físico), se puede obtener el diseño lógico aplicando Ingeniería Inversa y también el Diseño Conceptual.</para>
+    </section>
+  </content>
+</document>

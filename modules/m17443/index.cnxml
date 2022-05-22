@@ -1,0 +1,28 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>¿Qué es Reestructuración del Software?</title>
+  <metadata><md:content-id>undefined</md:content-id><md:title/><md:uuid>45c02fd1-caa1-4542-9f1b-8ec3449deb73</md:uuid>
+</metadata>
+  <content>
+    <para id="id15958657">La reestructuración del software modifica el código fuente y/o los datos en un intento de adecuarlo a futuros cambios. Tiende a centrarse en los detalles de diseño de módulos individuales y en estructuras de datos locales definidas dentro de los módulos.</para>
+    <para id="id12729590">Los beneficios de de la reestructuración son:</para>
+    <list list-type="bulleted" id="id16125209">
+      <item>Programas de mayor calidad con mejor documentación y menos complejidad, y ajustados a las prácticas y estándares de la ingeniería del software moderno.</item>
+      <item>Reduce la frustración entre ingenieros del software que deban trabajar con el programa, mejorando por tanto la productividad y haciendo más sencillo el aprendizaje.</item>
+      <item>Reduce el esfuerzo requerido para llevar a cabo las actividades de mantenimiento.</item>
+      <item>Hace que el software se mas sencillo de comprobar y depurar.</item>
+    </list>
+    <para id="id15767836">La reestructuración se produce cuando la arquitectura básica de la aplicación es sólida, aún cuando sus interioridades técnicas necesiten un retoque. Comienza cuando existen partes considerables del software que son útiles todavía y solamente existe un subconjunto de todos los módulos y datos que requieren una extensa modificación.</para>
+    <para id="id5685232">Los tipos de reestructuración, básicamente son 2: del código y de datos.</para>
+    <section id="id14332830">
+      <title>Reestructuración del código</title>
+      <para id="id4540914">La reestructuración del código se lleva a cabo para conseguir un diseño que produzca la misma función pero con mayor calidad que el programa original.</para>
+      <para id="id13890426">El objetivo es tomar el código de forma de "plato de espaguetis" y derivar un diseño de procedimientos que se ajuste a la filosofía de la programación estructurada.</para>
+    </section>
+    <section id="id15047914">
+      <title>Reestructuración de datos</title>
+      <para id="id12779186">Análisis del código fuente, en primer lugar se evaluarán todas las sentencias del lenguaje de programación con definiciones de datos, descripciones de archivos, de E/S, y descripciones de interfaz. Esta actividad a veces se denomina análisis de datos.</para>
+      <para id="id16406473">Una vez finalizado el análisis de datos, comienza el rediseño de datos. En su forma más sencilla se emplea un paso de estandarización de rediseño de datos que clarifica las definiciones de datos para lograr una consistencia entre nombres de objetos de datos, o entre formatos de registros físicos en el seno de la estructura de datos o formato de archivos existentes. Otra forma de rediseño, denominada racionalización de nombres de datos, garantiza que todas las convenciones de denominación de datos se ajusten a los estándares locales, y que se eliminen las irregularidades a medida que los datos fluyen por el sistema.</para>
+      <para id="id17089612">Cuando la reestructuración sobrepasa la estandarización y la racionalización, se efectúan modificaciones físicas en las estructuras de datos ya existentes con objeto de hacer que el diseño de datos sea más efectivo. Esto puede significar una conversión de un formato de archivo a otro, o, en algunos casos, una conversión de un tipo de base de datos a otra.</para>
+    </section>
+  </content>
+</document>
